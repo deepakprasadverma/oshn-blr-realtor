@@ -6,12 +6,12 @@ const createContact = async (req, res) => {
   console.log(req.body);
 
   try {
-    const { name, email, phone, message } = req.body;
+    const { name, email, phone, message, property } = req.body;
 
     if (!name || !email || !phone || !message) {
       return res.status(400).json({
         success: false,
-        message: "Please fill all fields",
+        message: "Please fill all required fields",
       });
     }
 
@@ -20,6 +20,7 @@ const createContact = async (req, res) => {
       email,
       phone,
       message,
+      property: property || "",
     });
 
     res.status(201).json({

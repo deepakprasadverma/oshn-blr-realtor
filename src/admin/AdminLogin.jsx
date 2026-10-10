@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/Oshn_logo.png";
+import { API_ENDPOINTS } from "../config/api";
 
 export default function AdminLogin() {
   const [roleMode, setRoleMode] = useState("superadmin"); // "superadmin" or "admin"
@@ -30,7 +31,7 @@ export default function AdminLogin() {
 
     try {
       // 1. Attempt server-side login
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch(API_ENDPOINTS.ADMIN_LOGIN, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

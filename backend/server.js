@@ -9,7 +9,8 @@ const connectDB = require("./config/db");
 const contactRoutes = require("./routes/contactRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-dotenv.config();
+const path = require("path");
+dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const app = express();
 

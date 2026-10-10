@@ -1,35 +1,31 @@
 const mongoose = require("mongoose");
 
-const propertySchema = new mongoose.Schema(
+const contactSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
-      required: true,
+      required: [true, "Name is required"],
+      trim: true,
     },
-
-    type: {
+    email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
+      trim: true,
     },
-
-    price: {
-      type: Number,
-      required: true,
-    },
-
-    location: {
+    phone: {
       type: String,
-      required: true,
+      required: [true, "Phone is required"],
+      trim: true,
     },
-
-    description: {
+    message: {
       type: String,
-      required: true,
+      required: [true, "Message is required"],
+      trim: true,
     },
-
-    image: {
+    property: {
       type: String,
       default: "",
+      trim: true,
     },
   },
   {
@@ -37,4 +33,4 @@ const propertySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Property", propertySchema);
+module.exports = mongoose.model("Contact", contactSchema);

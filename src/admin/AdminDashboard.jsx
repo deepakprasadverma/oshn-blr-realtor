@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/Oshn_logo.png";
+import { API_ENDPOINTS } from "../config/api";
 
 export default function AdminDashboard() {
   const [enquiries, setEnquiries] = useState([]);
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
   const fetchEnquiries = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/admin/enquiries", {
+      const response = await fetch(API_ENDPOINTS.ADMIN_ENQUIRIES, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -89,7 +90,7 @@ export default function AdminDashboard() {
   const fetchSystemStats = async () => {
     if (!isSuperAdmin) return;
     try {
-      const response = await fetch("http://localhost:5000/api/admin/system-stats", {
+      const response = await fetch(API_ENDPOINTS.ADMIN_STATS, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -113,7 +114,7 @@ export default function AdminDashboard() {
     if (!confirmDelete) return;
 
     try {
-      await fetch(`http://localhost:5000/api/admin/enquiries/${id}`, {
+      await fetch(`${API_ENDPOINTS.ADMIN_ENQUIRIES}/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -132,7 +133,7 @@ export default function AdminDashboard() {
     if (!confirmPurge) return;
 
     try {
-      await fetch("http://localhost:5000/api/admin/purge-all", {
+      await fetch(API_ENDPOINTS.ADMIN_PURGE, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
