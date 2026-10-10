@@ -73,9 +73,9 @@ export default function AdminLogin() {
       }
 
       if (fallbackAdmin) {
-        const dummyToken = Buffer.from(
+        const dummyToken = btoa(
           `${inputEmail}:${fallbackAdmin.role}:${Date.now()}:oshn_admin_secret_2026`
-        ).toString("base64");
+        );
         localStorage.setItem("oshn_admin_token", dummyToken);
         localStorage.setItem("oshn_admin_user", JSON.stringify(fallbackAdmin));
         navigate("/admin");

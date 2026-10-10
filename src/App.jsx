@@ -93,9 +93,14 @@ function Layout() {
   );
 }
 
+const appBaseName =
+  import.meta.env.BASE_URL && import.meta.env.BASE_URL !== "/"
+    ? import.meta.env.BASE_URL
+    : undefined;
+
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter basename={appBaseName}>
       <CompareProvider>
         <Layout />
       </CompareProvider>
