@@ -81,8 +81,11 @@ export default function Footer() {
           <p className="text-gray-400">
             © {new Date().getFullYear()} OSHN BLRREALTOR. All Rights Reserved.
           </p>
-          <p className="text-yellow-400 font-medium">
-            Designed &amp; Developed with 💛 for Bangalore Home Buyers
+          <p className="text-yellow-400 font-semibold tracking-wide">
+            Designed &amp; Developed By{" "}
+            <span className="font-extrabold text-white bg-slate-900 border border-slate-800 px-2.5 py-0.5 rounded-full inline-block ml-1 shadow-sm">
+              Syntrixad
+            </span>
           </p>
         </div>
       </div>

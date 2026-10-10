@@ -1,4 +1,4 @@
-// Authentication middleware to protect admin routes
+// Authentication middleware to protect admin and super admin routes
 const protectAdmin = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -19,7 +19,7 @@ const protectAdmin = (req, res, next) => {
       });
     }
 
-    // Decode token: base64 encoded "email:timestamp:secret"
+    // Decode token: base64 encoded "email:role:timestamp:secret"
     const decoded = Buffer.from(token, "base64").toString("utf-8");
     const secretKey = process.env.JWT_SECRET || "oshn_admin_secret_2026";
 
@@ -30,8 +30,11 @@ const protectAdmin = (req, res, next) => {
       });
     }
 
-    const [email] = decoded.split(":");
-    req.admin = { email };
+    const parts = decoded.split(":");
+    const email = parts[0];
+    const role = parts.length > 2 ? parts[1] : (email.includes("super") ? "superadmin" : "admin");
+
+    req.admin = { email, role };
     next();
   } catch (error) {
     console.error("Auth error:", error.message);
@@ -42,4 +45,17 @@ const protectAdmin = (req, res, next) => {
   }
 };
 
-module.exports = { protectAdmin };
+// Strict check for Super Admin only
+const protectSuperAdmin = (req, res, next) => {
+  protectAdmin(req, res, () => {
+    if (req.admin?.role !== "superadmin") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. Requires Syntrixad Super Admin privileges.",
+      });
+    }
+    next();
+  });
+};
+
+module.exports = { protectAdmin, protectSuperAdmin };

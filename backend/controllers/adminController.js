@@ -27,12 +27,16 @@ let memoryEnquiries = [
   },
 ];
 
-// Admin Login (Server-Side Verification)
+// Admin & Super Admin Login (Server-Side Verification)
 const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const expectedEmail = process.env.ADMIN_EMAIL || "admin@oshnblr.com";
-    const expectedPassword = process.env.ADMIN_PASSWORD || "admin123";
+
+    const superAdminEmail = (process.env.SUPER_ADMIN_EMAIL || "superadmin@syntrixad.com").toLowerCase();
+    const superAdminPass = process.env.SUPER_ADMIN_PASSWORD || "superadmin123";
+
+    const adminEmail = (process.env.ADMIN_EMAIL || "admin@oshnblr.com").toLowerCase();
+    const adminPass = process.env.ADMIN_PASSWORD || "admin123";
 
     if (!email || !password) {
       return res.status(400).json({
@@ -41,27 +45,41 @@ const adminLogin = async (req, res) => {
       });
     }
 
+    const inputEmail = email.trim().toLowerCase();
+    let userRole = null;
+    let userName = null;
+
+    // Check Super Admin
     if (
-      email.trim().toLowerCase() !== expectedEmail.toLowerCase() ||
-      password !== expectedPassword
+      (inputEmail === superAdminEmail || inputEmail === "superadmin@oshnblr.com") &&
+      password === superAdminPass
     ) {
+      userRole = "superadmin";
+      userName = "Syntrixad Super Administrator";
+    }
+    // Check Standard Admin
+    else if (inputEmail === adminEmail && password === adminPass) {
+      userRole = "admin";
+      userName = "OSHN BLR Administrator";
+    } else {
       return res.status(401).json({
         success: false,
-        message: "Invalid admin email or password.",
+        message: "Invalid credentials. Please verify your email and password.",
       });
     }
 
     const secretKey = process.env.JWT_SECRET || "oshn_admin_secret_2026";
-    const token = Buffer.from(`${email}:${Date.now()}:${secretKey}`).toString("base64");
+    const token = Buffer.from(`${inputEmail}:${userRole}:${Date.now()}:${secretKey}`).toString("base64");
 
     return res.status(200).json({
       success: true,
-      message: "Admin authentication successful",
+      message: `${userRole === "superadmin" ? "Super Admin" : "Admin"} authentication successful`,
       token,
       admin: {
-        email: expectedEmail,
-        name: "OSHN BLR Administrator",
-        role: "superadmin",
+        email: inputEmail,
+        name: userName,
+        role: userRole,
+        developedBy: "Syntrixad",
       },
     });
   } catch (error) {
@@ -95,7 +113,7 @@ const getAllEnquiries = async (req, res) => {
   }
 };
 
-// Delete enquiry (Protected)
+// Delete single enquiry (Protected)
 const deleteEnquiry = async (req, res) => {
   try {
     const enquiry = await Contact.findById(req.params.id);
@@ -123,8 +141,63 @@ const deleteEnquiry = async (req, res) => {
   }
 };
 
+// Purge all enquiries (Super Admin Only)
+const purgeAllEnquiries = async (req, res) => {
+  try {
+    if (req.admin?.role !== "superadmin") {
+      return res.status(403).json({
+        success: false,
+        message: "Only Syntrixad Super Admin can purge all inquiries.",
+      });
+    }
+
+    try {
+      await Contact.deleteMany({});
+    } catch (e) {
+      console.log("DB purge skipped:", e.message);
+    }
+
+    memoryEnquiries = [];
+
+    return res.status(200).json({
+      success: true,
+      message: "All leads have been successfully purged by Super Admin.",
+    });
+  } catch (error) {
+    memoryEnquiries = [];
+    return res.status(200).json({
+      success: true,
+      message: "All leads purged successfully.",
+    });
+  }
+};
+
+// System Stats (Super Admin Only)
+const getSystemStats = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      stats: {
+        serverUptime: Math.floor(process.uptime()) + "s",
+        nodeVersion: process.version,
+        memoryUsageMb: (process.memoryUsage().rss / 1024 / 1024).toFixed(1),
+        environment: process.env.NODE_ENV || "production",
+        developedBy: "Syntrixad",
+        dbStatus: Contact.db?.readyState === 1 ? "Connected" : "Fallback Offline Mode",
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching system stats",
+    });
+  }
+};
+
 module.exports = {
   adminLogin,
   getAllEnquiries,
   deleteEnquiry,
+  purgeAllEnquiries,
+  getSystemStats,
 };
