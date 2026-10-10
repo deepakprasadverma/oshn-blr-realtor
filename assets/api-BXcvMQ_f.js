@@ -1,1 +1,0 @@
-var e=`http://localhost:5000`,t={CONTACT:`${e}/api/contact`,PROPERTIES:`${e}/api/properties`,ADMIN_LOGIN:`${e}/api/admin/login`,ADMIN_ENQUIRIES:`${e}/api/admin/enquiries`,ADMIN_PURGE:`${e}/api/admin/purge-all`,ADMIN_STATS:`${e}/api/admin/system-stats`};export{t};
