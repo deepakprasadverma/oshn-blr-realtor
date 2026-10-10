@@ -2,14 +2,19 @@ const express = require("express");
 const router = express.Router();
 
 const {
+  adminLogin,
   getAllEnquiries,
   deleteEnquiry,
 } = require("../controllers/adminController");
+const { protectAdmin } = require("../middleware/authMiddleware");
 
-// Get all enquiries
-router.get("/enquiries", getAllEnquiries);
+// Public: Admin Login
+router.post("/login", adminLogin);
 
-// Delete enquiry
-router.delete("/enquiries/:id", deleteEnquiry);
+// Protected: Get all enquiries
+router.get("/enquiries", protectAdmin, getAllEnquiries);
+
+// Protected: Delete enquiry
+router.delete("/enquiries/:id", protectAdmin, deleteEnquiry);
 
 module.exports = router;

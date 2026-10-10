@@ -19,7 +19,7 @@ export default function Hero() {
             ✨ Verified Properties across Bengaluru
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-4 sm:mb-6">
             <span className="text-rose-500">Bangalore's Trusted</span>
             <span className="block text-yellow-400 mt-1 sm:mt-2">
               Real Estate Partner

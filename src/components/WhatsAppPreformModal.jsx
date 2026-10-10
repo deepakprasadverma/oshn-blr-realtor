@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 export default function WhatsAppPreformModal({ isOpen, onClose }) {
   const [phone, setPhone] = useState("");
@@ -52,8 +53,8 @@ export default function WhatsAppPreformModal({ isOpen, onClose }) {
       >
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-2">
-            <span className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
-              💬
+            <span className="w-10 h-10 rounded-full bg-[#25D366]/20 text-[#25D366] flex items-center justify-center">
+              <WhatsAppIcon className="w-6 h-6 fill-[#25D366]" />
             </span>
             <div>
               <h3 className="text-xl font-bold text-white">Chat on WhatsApp</h3>
@@ -136,9 +137,10 @@ export default function WhatsAppPreformModal({ isOpen, onClose }) {
 
           <button
             type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3.5 rounded-xl font-bold text-sm transition transform active:scale-95 shadow-lg mt-2 flex items-center justify-center gap-2"
+            className="w-full bg-[#25D366] hover:bg-[#20ba59] text-white py-3.5 rounded-xl font-bold text-sm transition transform active:scale-95 shadow-lg mt-2 flex items-center justify-center gap-2"
           >
-            <span>💬</span> Start WhatsApp Chat
+            <WhatsAppIcon className="w-5 h-5 fill-white" />
+            <span>Start WhatsApp Chat</span>
           </button>
         </form>
       </div>

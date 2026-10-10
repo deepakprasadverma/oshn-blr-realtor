@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { propertiesData } from "../data/propertiesData";
 import { useCompare } from "../context/CompareContext";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 export default function AdvancedSearchFilter() {
   const [selectedType, setSelectedType] = useState("All");
@@ -255,9 +256,10 @@ export default function AdvancedSearchFilter() {
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-center bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1"
+                          className="text-center bg-[#25D366] hover:bg-[#20ba59] text-white py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow"
                         >
-                          <span>💬</span> WhatsApp
+                          <WhatsAppIcon className="w-4 h-4 fill-white" />
+                          <span>WhatsApp</span>
                         </a>
                       </div>
                     </div>

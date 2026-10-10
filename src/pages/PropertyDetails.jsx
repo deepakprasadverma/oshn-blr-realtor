@@ -3,6 +3,7 @@ import SiteVisitModal from "../components/SiteVisitModal";
 import { useCompare } from "../context/CompareContext";
 import { propertiesData } from "../data/propertiesData";
 import { Link } from "react-router-dom";
+import WhatsAppIcon from "../components/WhatsAppIcon";
 
 export default function PropertyDetails() {
   const [openModal, setOpenModal] = useState(false);
@@ -144,9 +145,10 @@ export default function PropertyDetails() {
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold text-base transition transform active:scale-95 shadow-lg flex items-center justify-center gap-2"
+            className="flex-1 text-center bg-[#25D366] hover:bg-[#20ba59] text-white py-4 rounded-xl font-bold text-base transition transform active:scale-95 shadow-lg flex items-center justify-center gap-2"
           >
-            <span>💬</span> Request Cost Sheet on WhatsApp
+            <WhatsAppIcon className="w-5 h-5 fill-white" />
+            <span>Request Cost Sheet on WhatsApp</span>
           </a>
 
           <button
