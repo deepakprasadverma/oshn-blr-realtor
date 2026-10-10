@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: oshn-blr-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        value: oshn_admin_secret_2026
+      - key: ADMIN_EMAIL
+        value: admin@oshnblr.com
+      - key: ADMIN_PASSWORD
+        value: admin123
+      - key: SUPER_ADMIN_EMAIL
+        value: superadmin@syntrixad.com
+      - key: SUPER_ADMIN_PASSWORD
+        value: superadmin123
