@@ -1,11 +1,18 @@
 const mongoose = require("mongoose");
 
+global.dbConnectionStatus = { connected: false, error: null };
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI environment variable is missing!");
+    }
 
+    await mongoose.connect(process.env.MONGODB_URI);
+    global.dbConnectionStatus = { connected: true, error: null };
     console.log("✅ MongoDB Connected Successfully");
   } catch (error) {
+    global.dbConnectionStatus = { connected: false, error: error.message };
     console.log("❌ MongoDB Connection Failed");
     console.log("----------------------------");
     console.log("Name:", error.name);

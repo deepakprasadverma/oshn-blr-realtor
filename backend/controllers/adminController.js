@@ -184,6 +184,8 @@ const getSystemStats = async (req, res) => {
         environment: process.env.NODE_ENV || "production",
         developedBy: "Syntrixad",
         dbStatus: Contact.db?.readyState === 1 ? "Connected" : "Fallback Offline Mode",
+        dbError: global.dbConnectionStatus?.error || null,
+        mongoConfigured: Boolean(process.env.MONGODB_URI),
       },
     });
   } catch (error) {
